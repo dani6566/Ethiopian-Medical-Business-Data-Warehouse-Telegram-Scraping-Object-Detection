@@ -6,6 +6,18 @@ __pycache__/
 # C extensions
 *.so
 
+#env
+.env
+
+#log
+.log
+
+
+#data
+data/
+# Scripts/telegram_data.csv
+# Scripts/photos
+
 # Distribution / packaging
 .Python
 build/
