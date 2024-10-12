@@ -1,20 +1,16 @@
 {{ config(materialized='table') }}
 
-WITH filtered_sales AS (
+WITH raw_data AS (
     SELECT *
-    FROM {{ source('public', 'data_warahouse') }}
-    WHERE Quantity > 0
-    AND UnitPrice > 0
+    FROM {{ ref('data_warehouse') }}  -- Reference to the raw data source
 )
 
-SELECT
-    InvoiceNo,
-    StockCode,
-    Description,
-    Quantity,
-    UnitPrice,
-    Quantity * UnitPrice AS TotalAmount,
-    InvoiceDate,
-    CustomerID,
-    Country
-FROM filtered_sales
+SELECT 
+    id,
+    UPPER(channel_title) AS channel_title,   -- Transform channel_title to uppercase
+    channel_username,
+    message,
+    date,
+    media_path
+FROM raw_data
+WHERE id IS NOT NULL  -- Ensure the id is not null
