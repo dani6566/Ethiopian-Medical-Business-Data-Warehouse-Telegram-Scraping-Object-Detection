@@ -4,22 +4,61 @@ sources:
   - name: public
     schema: public
     tables:
-      - name: data_warahouse
+      - name: data_warehouse  # Corrected table name
+        description: "This table stores data scraped from Ethiopian medical Telegram channels."
+        columns:
+          - name: channel_title
+            description: "The title of the Telegram channel."
+            tests:
+              - not_null
+          - name: channel_username
+            description: "The username of the Telegram channel."
+            tests:
+              - not_null
+          - name: id
+            description: "The unique ID extracted from the media path, representing the content identifier."
+            tests:
+              - not_null  
+              - unique  # IDs should be unique after transformation
+          - name: message
+            description: "The message content posted on the Telegram channel."
+            tests:
+              - not_null
+          - name: date
+            description: "The timestamp when the message was posted."
+            tests:
+              - not_null
+          - name: media_path
+            description: "The file path to the associated media (image, video, etc.)."
+            tests:
+              - not_null
 
 models:
   - name: transformed
-    description: "This model transforms raw sales data by calculating the total amount and filtering invalid rows."
+    description: "This model transforms raw Telegram data into a cleaned and standardized format."
     columns:
-      - name: InvoiceNo
-        description: "The unique invoice number."
-        data_tests:
+      - name: channel_title
+        description: "Standardized channel title in lowercase and trimmed."
+        tests:
+          - not_null
+      - name: channel_username
+        description: "Standardized channel username in lowercase and trimmed."
+        tests:
+          - not_null
+      - name: id
+        description: "Extracted ID from media path converted to an integer."
+        tests:
           - not_null
           - unique
-      - name: TotalAmount
-        description: "Total sales amount calculated as Quantity * UnitPrice."
-        data_tests:
+      - name: message
+        description: "Message content with newlines removed."
+        tests:
           - not_null
-      - name: CustomerID
-        description: "The ID of the customer."
-        data_tests:
+      - name: date
+        description: "Standardized date format."
+        tests:
+          - not_null
+      - name: media_path
+        description: "Media path associated with the message."
+        tests:
           - not_null

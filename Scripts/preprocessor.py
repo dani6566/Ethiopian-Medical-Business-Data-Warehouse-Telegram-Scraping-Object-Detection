@@ -14,6 +14,7 @@ class DataHouse:
 
             # Removing Duplicates
             self.df.drop_duplicates(inplace=True)
+                      
             logging.info('Duplicates removed.')
         
             # Handling Missing Values
