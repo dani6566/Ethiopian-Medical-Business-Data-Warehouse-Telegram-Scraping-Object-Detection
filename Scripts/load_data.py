@@ -3,7 +3,7 @@ import psycopg2
 import pandas as pd
 import csv
 from dotenv import load_dotenv
-
+from sqlalchemy import create_engine
 
 
 # Load environment variables from .env file
@@ -45,3 +45,33 @@ conn.commit()
 # Close the cursor and connection
 cur.close()
 conn.close()
+
+db_url = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+
+engine = create_engine(db_url)
+
+
+
+def create_db_engine_from_env():
+    # Load environment variables from .env file
+    load_dotenv()
+
+    # Check if any environment variable is missing
+    if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
+        raise ValueError("Missing one or more environment variables for database connection.")
+
+    # Create the database URL
+    db_url = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+
+    # Create and return the SQLAlchemy engine
+    engine = create_engine(db_url)
+    return engine
+
+# usage
+if __name__ == "__main__":
+    try:
+        engine = create_db_engine_from_env()
+        print("Database engine created successfully:")
+        print(engine)
+    except Exception as e:
+        print(f"Error: {e}")
