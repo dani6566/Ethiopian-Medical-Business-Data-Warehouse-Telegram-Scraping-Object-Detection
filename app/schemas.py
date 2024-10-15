@@ -1,5 +1,4 @@
-# schemas.py
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class MedicalBusinessBase(BaseModel):
     name: str
@@ -17,4 +16,6 @@ class MedicalBusiness(MedicalBusinessBase):
     id: int
 
     class Config:
-        orm_mode = True  # This tells Pydantic to convert SQLAlchemy models to dicts
+        model_config = ConfigDict(
+            from_attributes=True  # Use this instead of orm_mode for Pydantic v2+
+        )

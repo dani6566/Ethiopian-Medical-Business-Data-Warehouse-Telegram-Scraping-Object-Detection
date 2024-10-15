@@ -1,6 +1,6 @@
 # models.py
 from sqlalchemy import Column, Integer, String
-from .database import Base
+from database import Base
 
 class MedicalBusiness(Base):
     __tablename__ = 'medical_businesses'
