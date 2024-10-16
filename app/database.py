@@ -25,7 +25,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Base class for models
 Base = declarative_base()
-print(Base)
 
 # Dependency to get a DB session
 def get_db():

@@ -1,21 +1,26 @@
+# schemas.py
 from pydantic import BaseModel, ConfigDict
+from datetime import datetime 
 
 class MedicalBusinessBase(BaseModel):
-    name: str
-    address: str
-    contact_info: str
+    channel_title: str
     channel_username: str
     message: str
-    date: str
+    date: datetime
     media_path: str
 
 class MedicalBusinessCreate(MedicalBusinessBase):
     pass
 
-class MedicalBusiness(MedicalBusinessBase):
-    id: int
+class MedicalBusiness(BaseModel):
+    id: str
+    channel_title: str
+    channel_username: str
+    message: str
+    date: datetime
+    media_path: str
 
     class Config:
         model_config = ConfigDict(
-            from_attributes=True  # Use this instead of orm_mode for Pydantic v2+
+            from_attributes=True  # Use this for Pydantic v2+ instead of orm_mode
         )

@@ -1,8 +1,7 @@
 # crud.py
 from sqlalchemy.orm import Session
 from models import MedicalBusiness
-from schemas import MedicalBusinessCreate, MedicalBusiness
-# from . import models, schemas
+from schemas import MedicalBusinessCreate
 
 def get_medical_businesses(db: Session, skip: int = 0, limit: int = 10):
     return db.query(MedicalBusiness).offset(skip).limit(limit).all()
